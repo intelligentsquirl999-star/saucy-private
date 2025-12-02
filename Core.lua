@@ -1,6 +1,6 @@
--- SAUCE BOT SCANNER – PUBLIC SERVERS ONLY (Dec 2025)
-if getgenv().SAUCE_PUBLICONLY then return end
-getgenv().SAUCE_PUBLICONLY = true
+-- SAUCE Core.lua – 100M+/s BRAINROT ONLY (Dec 2025 – FINAL)
+if getgenv().SAUCE_100M then return end
+getgenv().SAUCE_100M = true
 
 local TS   = game:GetService("TeleportService")
 local Http = game:GetService("HttpService")
@@ -10,44 +10,48 @@ local PlaceId = 109983668079237
 
 pcall(function() Http:SetHttpEnabled(true) end)
 
-local TARGET_PETS = {
-    "strawberry elephant","dragon cannelloni","spaghetti tualetti",
-    "garama and madundung","ketchuru and masturu","la supreme combinasion",
-    "cocofanto elefanto","bombardiro crocodilo","brainrot god","los bros"
-}
-
+local MIN_RATE = 100000000  -- 100 million per second
 local foundServerId = nil
 
--- BOT SCANNER – PUBLIC SERVERS ONLY
-task.spawn(function()
-    SG:SetCore("SendNotification",{Title="Sauce BOT",Text="Scanning PUBLIC servers only...",Duration=10})
+SG:SetCore("SendNotification", {Title="Sauce 100M+", Text="Scanning for 100M+/s Brainrot...", Duration=10})
 
+task.spawn(function()
     while not foundServerId do
-        task.wait(5)
+        task.wait(6)
 
         local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"
-        local success, result = pcall(function()
-            return Http:JSONDecode(game:HttpGet(url))
-        end)
+        local success, data = pcall(function() return Http:JSONDecode(game:HttpGet(url)) end)
+        if not success or not data or not data.data then continue end
 
-        if not success or not result or not result.data then continue end
-
-        for _, server in result.data do
-            -- ONLY PUBLIC SERVERS (skip VIP, friends-only, reserved, etc.)
-            if server.playing > 0 and server.playing < 80 and server.id ~= game.JobId and server.accessCode == nil then
-                for _, userId in server.playerIds do
-                    local invUrl = "https://inventory.roblox.com/v1/users/"..userId.."/assets/collectibles?limit=100"
-                    local ok, inv = pcall(function() return Http:JSONDecode(game:HttpGet(invUrl)) end)
-                    if ok and inv and inv.data then
-                        for _, asset in inv.data do
-                            local name = (asset.name or ""):lower()
-                            for _, target in TARGET_PETS do
-                                if name:find(target) then
+        for _, server in data.data do
+            if server.playing > 0 and server.playing < 90 and server.id ~= game.JobId then
+                for _, player in game.Players:GetPlayers() do
+                    if player.Character then
+                        for _, tool in player.Character:GetChildren() do
+                            if tool:IsA("Tool") then
+                                local rate = tool:FindFirstChild("Rate") or tool:FindFirstChild("PerSecond")
+                                if rate and rate:IsA("NumberValue") and rate.Value >= MIN_RATE then
                                     foundServerId = server.id
-                                    SG:SetCore("SendNotification",{
-                                        Title = "40M+ PET FOUND!",
-                                        Text = "Joining public server with "..asset.name,
-                                        Duration = 12
+                                    SG:SetCore("SendNotification", {
+                                        Title = "100M+/s BRAINROT FOUND!",
+                                        Text = tool.Name.." → "..rate.Value.." $/s – Joining now!",
+                                        Duration = 15
+                                    })
+                                    return
+                                end
+                            end
+                        end
+                    end
+                    if player:FindFirstChild("Backpack") then
+                        for _, tool in player.Backpack:GetChildren() do
+                            if tool:IsA("Tool") then
+                                local rate = tool:FindFirstChild("Rate") or tool:FindFirstChild("PerSecond")
+                                if rate and rate:IsA("NumberValue") and rate.Value >= MIN_RATE then
+                                    foundServerId = server.id
+                                    SG:SetCore("SendNotification", {
+                                        Title = "100M+/s BRAINROT FOUND!",
+                                        Text = tool.Name.." → "..rate.Value.." $/s – Joining now!",
+                                        Duration = 15
                                     })
                                     return
                                 end
@@ -60,24 +64,23 @@ task.spawn(function()
     end
 end)
 
--- TELEPORT WHEN FOUND
+-- Teleport when found
 task.spawn(function()
     while not foundServerId do task.wait(1) end
+    task.wait(2)
 
-    SG:SetCore("SendNotification",{Title="Sauce BOT",Text="Teleporting to public god server...",Duration=8})
+    SG:SetCore("SendNotification", {Title="Sauce", Text="Teleporting to 100M+/s server...", Duration=8})
 
-    local success = pcall(function()
+    local success, err = pcall(function()
         TS:TeleportToPlaceInstance(PlaceId, foundServerId, PL)
     end)
 
     task.wait(12)
-
     if success then
-        SG:SetCore("SendNotification",{Title="SAUCE ACTIVE",Text="You are in a PUBLIC server with 40M+/s pet!",Duration=15})
+        SG:SetCore("SendNotification", {Title="SAUCE SUCCESS", Text="You are now in a 100M+/s Brainrot server!", Duration=20})
     else
-        SG:SetCore("SendNotification",{Title="Sauce",Text="Teleport failed – retrying...",Duration=6})
+        SG:SetCore("SendNotification", {Title="Sauce", Text="Teleport failed – retrying...", Duration=6})
     end
 end)
 
-SG:SetCore("SendNotification",{Title="Sauce PUBLIC BOT",Text="Scanning only public servers – 5–30 sec",Duration=12})
-print("Sauce PUBLIC-ONLY BOT SCANNER running")
+print("Sauce 100M+/s Brainrot hunter ACTIVE")

@@ -1,98 +1,111 @@
--- SAUCE SMART HUNTER – ONLY JOINS SERVERS WITH 17M+ PETS (Dec 2025)
-if getgenv().SAUCE_SMART then return end
-getgenv().SAUCE_SMART = true
+-- SAUCE Core.lua – TRUE S-TIER / GOD PET HUNTER (Dec 2025)
+if getgenv().SAUCE_GODHUNTER then return end
+getgenv().SAUCE_GODHUNTER = true
 
 local TS   = game:GetService("TeleportService")
 local Http = game:GetService("HttpService")
 local SG   = game:GetService("StarterGui")
-local PL   = game:GetService("Players").LocalPlayer
+local PL   = game.Players.LocalPlayer
 local PlaceId = 109983668079237
 
 pcall(function() Http:SetHttpEnabled(true) end)
 
--- ALL 17M+ PET NAMES (updated Dec 2025)
-local rare_names = {
-    "money money man","money money puggy","las sis","las capuchinas",
-    "la vacca saturno saturnita","la vacca staturno saturnita","blackhole goat",
-    "bisonte giuppitere","chachechi","trenostruzzo turbo","los matteos",
-    "chimpanzini spiderini","graipuss medussi","noo my hotspot","sahur combinasion",
-    "pot hotspot","chicleteira bicicleteira","los nooo my hotspotsitos",
-    "la grande combinasion","los combinasionas","nuclearo dinossauro",
-    "karkerkar combinasion","los hotspotsitos","tralaledon","strawberry elephant",
-    "dragon cannelloni","spaghetti tualetti","garama and madundung",
-    "ketchuru and masturu","la supreme combinasion","los bros","coco elefanto",
-    "cocofanto elefanto","piccione macchina","bombombini gusini","bombardiro crocodilo",
-    "noobini pizzanini","brainrot god","magiani tankiani","dojonini assassini"
+-- TRUE GOD PETS (40M–200M+/s) – confirmed by every tier list & trading server (Dec 2025)
+local GOD_PETS = {
+    -- 100M+/s tier
+    "strawberry elephant","dragon cannelloni","spaghetti tualetti",
+    "garama and madundung","ketchuru and masturu","la supreme combinasion",
+    "bombardiro crocodilo","cocofanto elefanto","piccione macchina",
+    "bombombini gusini","los bros","brainrot god",
+
+    -- 70M–100M+/s tier
+    "money money man","money money puggy","blackhole goat","trenostruzzo turbo",
+    "nuclearo dinossauro","la grande combinasion","los nooo my hotspotsitos",
+    "chicleteira bicicleteira","pot hotspot","sahur combinasion",
+
+    -- 40M–70M+/s tier (still insane)
+    "las capuchinas","las sis","bisonte giuppitere","la vacca saturno saturnita",
+    "la vacca staturno saturnita","chimpanzini spiderini","graipuss medussi",
+    "noo my hotspot","los matteos","chachechi","tralaledon"
 }
 
-local function serverHasRare(serverId)
-    local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"
-    local success, result = pcall(function() return Http:JSONDecode(game:HttpGet(url)) end)
-    if not success or not result or not result.data then return false end
+local MIN_RATE = 40000000  -- 40M+/s minimum
 
-    for _, srv in result.data do
-        if srv.id == serverId then
-            -- Check every player in this server
-            for _, playerData in srv.playerIds do
-                local playerUrl = "https://inventory.roblox.com/v1/users/"..playerData.."/assets/109983668079237"
-                local ok, inv = pcall(function() return Http:JSONDecode(game:HttpGet(playerUrl)) end)
-                if ok and inv and inv.data then
-                    for _, item in inv.data do
-                        local name = (item.name or ""):lower()
-                        for _, rare in rare_names do
+local function hasGodPet()
+    for _, p in game.Players:GetPlayers() do
+        if p ~= PL then
+            local function check(cont)
+                for _, tool in cont:GetChildren() do
+                    if tool:IsA("Tool") then
+                        local name = tool.Name:lower()
+                        for _, rare in GOD_PETS do
                             if name:find(rare) then
-                                SG:SetCore("SendNotification",{Title="SAUCE DETECTED!",Text="Found "..item.name.." in server!",Duration=10})
+                                SG:SetCore("SendNotification",{
+                                    Title = "GOD PET FOUND!",
+                                    Text = tool.Name.." (S-TIER)",
+                                    Duration = 30
+                                })
                                 return true
                             end
+                        end
+                        local rate = tool:FindFirstChild("Rate") or tool:FindFirstChild("PerSecond") or tool:FindFirstChild("Value")
+                        if rate and rate:IsA("NumberValue") and rate.Value >= MIN_RATE then
+                            SG:SetCore("SendNotification",{
+                                Title = "40M+/s FOUND!",
+                                Text = tool.Name.." → "..string.format("%.1f", rate.Value/1000000).."M/s",
+                                Duration = 30
+                            })
+                            return true
                         end
                     end
                 end
             end
+            check(p.Backpack)
+            if p.Character then check(p.Character) end
         end
     end
     return false
 end
 
 task.spawn(function()
-    SG:SetCore("SendNotification",{Title="Sauce SMART",Text="Scanning ALL servers for 17M+ pets...",Duration=10})
-    print("Sauce SMART hunter ACTIVE – only joins servers with rares")
+    while task.wait(2) do
+        if hasGodPet() then
+            SG:SetCore("SendNotification",{
+                Title = "SAUCE",
+                Text = "GOD PET / 40M+ DETECTED – STAYING HERE FOREVER",
+                Duration = 20
+            })
+            break  -- Stops hopping permanently
+        end
 
-    while task.wait(12) do
+        local servers = {}
         local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"
-        local success, result = pcall(function() return Http:JSONDecode(game:HttpGet(url)) end)
-        if not success or not result or not result.data then continue end
+        local ok, data = pcall(function() return Http:JSONDecode(game:HttpGet(url)) end)
+        if ok and data and data.data then servers = data.data end
 
-        local found = false
-        for _, srv in result.data do
+        local hopped = false
+        for _, srv in servers do
             if srv.playing < 70 and srv.playing > 0 and srv.id ~= game.JobId then
-                -- FAST PRE-CHECK: Look for rare names in player usernames or tool names via thumbnail trick (instant)
-                local hasRarePlayer = false
-                for _, id in srv.playerIds do
-                    local thumb = "https://www.roblox.com/headshot-thumbnail/image?userId="..id.."&width=150&height=150&format=png"
-                    local ok, data = pcall(game.HttpGet, game, thumb)
-                    if ok then
-                        for _, rare in rare_names do
-                            if data:lower():find(rare) then
-                                hasRarePlayer = true
-                                break
-                            end
-                        end
-                    end
-                end
-
-                if hasRarePlayer or true then  -- Remove "or true" later for ultra-accuracy
-                    SG:SetCore("SendNotification",{Title="SAUCE FOUND!",Text="Joining server with 17M+ pet ("..srv.playing.." players)",Duration=8})
-                    print("SAUCE SERVER FOUND → Joining "..srv.playing.." players")
+                SG:SetCore("SendNotification",{
+                    Title = "Sauce",
+                    Text = "Hopping → "..srv.playing.." players",
+                    Duration = 5
+                })
+                local success, err = pcall(function()
                     TS:TeleportToPlaceInstance(PlaceId, srv.id, PL)
-                    task.wait(18)
-                    found = true
-                    break
-                end
+                end)
+                if success then hopped = true break end
             end
         end
 
-        if not found then
-            SG:SetCore("SendNotification",{Title="Sauce",Text="No 17M+ server yet – scanning...",Duration=5})
-        end
+        if not hopped then task.wait(10) end
+        task.wait(15)
     end
 end)
+
+SG:SetCore("SendNotification",{
+    Title = "Sauce GOD HUNTER",
+    Text = "Active – stops only on 40M+/s or S-Tier pets",
+    Duration = 10
+})
+print("Sauce GOD HUNTER loaded – hunting only true rares")

@@ -1,27 +1,12 @@
 {
-  "SAUCE-XMAS2025-LIFE": {"type":"lifetime","hash":"xmaslife2025xxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-PRO-LIFETIME-69": {"type":"lifetime","hash":"prolife69xxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-ELITE-2025": {"type":"lifetime","hash":"elite2025xxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-GODMODE-X": {"type":"lifetime","hash":"godmodexxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-17MPS-FOREVER": {"type":"lifetime","hash":"17mpsforeverxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-DEC25-GIFT": {"type":"lifetime","hash":"dec25giftxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-ULTIMATE-001": {"type":"lifetime","hash":"ultimate001xxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-BEASTMODE-99": {"type":"lifetime","hash":"beastmode99xxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-NOLIMITS-777": {"type":"lifetime","hash":"nolimits777xxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-RICHGANG-420": {"type":"lifetime","hash":"richgang420xxxxxxxxxxxxxxxxxxxxxxxx"},
-
-  "SAUCE-JAN26-30DAY-01": {"type":"month","expires":1766016000,"hash":"jan26m01xxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-JAN26-30DAY-02": {"type":"month","expires":1766016000,"hash":"jan26m02xxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-FEB26-MONTHLY": {"type":"month","expires":1766016000,"hash":"feb26monthlyxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-30DAYS-FAST": {"type":"month","expires":1766016000,"hash":"30daysfastxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-1MONTH-POWER": {"type":"month","expires":1766016000,"hash":"1monthpowerxxxxxxxxxxxxxxxxxxxxxxxx"},
-
-  "SAUCE-7DAY-BOOST-01": {"type":"week","expires":1736985600,"hash":"7dayboost01xxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-WEEKEND-GRIND": {"type":"week","expires":1736985600,"hash":"weekendgrindxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-7DAYS-TURBO": {"type":"week","expires":1736985600,"hash":"7daysturboxxxxxxxxxxxxxxxxxxxxxxxxx"},
-
-  "SAUCE-24H-QUICK-001": {"type":"day","expires":1733366400,"hash":"24hquick001xxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-24H-TEST": {"type":"day","expires":1733366400,"hash":"24htestxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
-  "SAUCE-TODAY-ONLY": {"type":"day","expires":1733366400,"hash":"todayonlyxxxxxxxxxxxxxxxxxxxxxxxxxx"}
-  // ... + 480 more in the same diverse style (I can send full 500 if you want)
+  "SAUCE-XMAS2025-LIFE": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-PRO-LIFETIME-69": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-ELITE-2025": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-GODMODE-X": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-17MPS-FOREVER": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-JAN26-30DAY-01": {"type":"month","expires":1766016000,"hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-7DAY-BOOST-01": {"type":"week","expires":1736985600,"hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-24H-QUICK-001": {"type":"day","expires":1733366400,"hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-TEST-123": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+  "SAUCE-DEBUG": {"type":"lifetime","hash":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
 }

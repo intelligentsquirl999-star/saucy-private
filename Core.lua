@@ -1,6 +1,6 @@
--- SAUCE Core.lua – TRUE S-TIER / GOD PET HUNTER (Dec 2025)
-if getgenv().SAUCE_GODHUNTER then return end
-getgenv().SAUCE_GODHUNTER = true
+-- SAUCE FINAL GOD HUNTER – ONLY 100M+/s + TRUE S-TIER (Dec 2025)
+if getgenv().SAUCE_ULTRA then return end
+getgenv().SAUCE_ULTRA = true
 
 local TS   = game:GetService("TeleportService")
 local Http = game:GetService("HttpService")
@@ -10,51 +10,51 @@ local PlaceId = 109983668079237
 
 pcall(function() Http:SetHttpEnabled(true) end)
 
--- TRUE GOD PETS (40M–200M+/s) – confirmed by every tier list & trading server (Dec 2025)
-local GOD_PETS = {
-    -- 100M+/s tier
-    "strawberry elephant","dragon cannelloni","spaghetti tualetti",
-    "garama and madundung","ketchuru and masturu","la supreme combinasion",
-    "bombardiro crocodilo","cocofanto elefanto","piccione macchina",
-    "bombombini gusini","los bros","brainrot god",
-
-    -- 70M–100M+/s tier
-    "money money man","money money puggy","blackhole goat","trenostruzzo turbo",
-    "nuclearo dinossauro","la grande combinasion","los nooo my hotspotsitos",
-    "chicleteira bicicleteira","pot hotspot","sahur combinasion",
-
-    -- 40M–70M+/s tier (still insane)
-    "las capuchinas","las sis","bisonte giuppitere","la vacca saturno saturnita",
-    "la vacca staturno saturnita","chimpanzini spiderini","graipuss medussi",
-    "noo my hotspot","los matteos","chachechi","tralaledon"
+-- CURRENT REAL S-TIER / GOD PETS (Dec 2025 – confirmed by every trading server)
+local TRUE_GOD_PETS = {
+    "strawberry elephant",          -- 1B+ value
+    "dragon cannelloni",            -- 800M–1.5B
+    "spaghetti tualetti",           -- 700M–1.2B
+    "garama and madundung",         -- 600M–1B
+    "ketchuru and masturu",         -- 600M–1B
+    "la supreme combinasion",       -- 500M–900M
+    "cocofanto elefanto",           -- 400M–800M
+    "bombardiro crocodilo",         -- 400M–700M
+    "brainrot god",                 -- 300M–600M
+    "los bros",                     -- 250M–500M
+    "money money man",              -- 200M–400M
+    "money money puggy",            -- 180M–350M
+    "blackhole goat"                -- 150M–300Utc
 }
 
-local MIN_RATE = 40000000  -- 40M+/s minimum
+local MIN_RATE = 100000000  -- 100M+/s minimum (only the absolute best)
 
-local function hasGodPet()
+local function hasTrueGod()
     for _, p in game.Players:GetPlayers() do
         if p ~= PL then
-            local function check(cont)
-                for _, tool in cont:GetChildren() do
+            local function check(container)
+                for _, tool in container:GetChildren() do
                     if tool:IsA("Tool") then
                         local name = tool.Name:lower()
-                        for _, rare in GOD_PETS do
-                            if name:find(rare) then
+                        for _, god in TRUE_GOD_PETS do
+                            if name:find(god) then
                                 SG:SetCore("SendNotification",{
-                                    Title = "GOD PET FOUND!",
-                                    Text = tool.Name.." (S-TIER)",
-                                    Duration = 30
+                                    Title = "TRUE GOD PET FOUND!",
+                                    Text = tool.Name.." – STAYING FOREVER",
+                                    Duration = 60
                                 })
+                                game:GetService("SoundService"):PlayLocalSound(game:GetService("SoundService"):CreateSound("rbxassetid://6026984221"))
                                 return true
                             end
                         end
                         local rate = tool:FindFirstChild("Rate") or tool:FindFirstChild("PerSecond") or tool:FindFirstChild("Value")
                         if rate and rate:IsA("NumberValue") and rate.Value >= MIN_RATE then
                             SG:SetCore("SendNotification",{
-                                Title = "40M+/s FOUND!",
+                                Title = "100M+/s GOD PET!",
                                 Text = tool.Name.." → "..string.format("%.1f", rate.Value/1000000).."M/s",
-                                Duration = 30
+                                Duration = 60
                             })
+                            game:GetService("SoundService"):PlayLocalSound(game:GetService("SoundService"):CreateSound("rbxassetid://6026984221"))
                             return true
                         end
                     end
@@ -69,43 +69,34 @@ end
 
 task.spawn(function()
     while task.wait(2) do
-        if hasGodPet() then
+        if hasTrueGod() then
             SG:SetCore("SendNotification",{
                 Title = "SAUCE",
-                Text = "GOD PET / 40M+ DETECTED – STAYING HERE FOREVER",
-                Duration = 20
+                Text = "TRUE GOD PET / 100M+ FOUND – HOPPING STOPPED",
+                Duration = 30
             })
-            break  -- Stops hopping permanently
+            break
         end
 
         local servers = {}
-        local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"
-        local ok, data = pcall(function() return Http:JSONDecode(game:HttpGet(url)) end)
+        local ok, data = pcall(function() return Http:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100")) end)
         if ok and data and data.data then servers = data.data end
 
         local hopped = false
         for _, srv in servers do
-            if srv.playing < 70 and srv.playing > 0 and srv.id ~= game.JobId then
-                SG:SetCore("SendNotification",{
-                    Title = "Sauce",
-                    Text = "Hopping → "..srv.playing.." players",
-                    Duration = 5
-                })
-                local success, err = pcall(function()
-                    TS:TeleportToPlaceInstance(PlaceId, srv.id, PL)
-                end)
-                if success then hopped = true break end
+            if srv.playing < 75 and srv.playing > 0 and srv.id ~= game.JobId then
+                SG:SetCore("SendNotification",{Title="Sauce",Text="Hopping → "..srv.playing.." players",Duration=5})
+                pcall(function() TS:TeleportToPlaceInstance(PlaceId, srv.id, PL) end)
+                hopped = true
+                break
             end
         end
-
-        if not hopped then task.wait(10) end
-        task.wait(15)
+        task.wait(hopped and 15 or 10)
     end
 end)
 
 SG:SetCore("SendNotification",{
-    Title = "Sauce GOD HUNTER",
-    Text = "Active – stops only on 40M+/s or S-Tier pets",
-    Duration = 10
+    Title = "SAUCE GOD HUNTER",
+    Text = "Active – stops ONLY on 100M+/s or TRUE S-Tier pets",
+    Duration = 12
 })
-print("Sauce GOD HUNTER loaded – hunting only true rares")

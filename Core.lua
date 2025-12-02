@@ -1,6 +1,6 @@
--- SAUCE Core.lua – STRICT 40M+/s ONLY (Dec 2025 – No Low-Rate Trash)
-if getgenv().SAUCE_STRICT then return end
-getgenv().SAUCE_STRICT = true
+-- SAUCE Core.lua – STRICT 40M+/s RATE ONLY (Dec 2025 – No Low-Income Trash)
+if getgenv().SAUCE_RATEFIX then return end
+getgenv().SAUCE_RATEFIX = true
 
 local TS = game:GetService("TeleportService")
 local Http = game:GetService("HttpService")
@@ -10,7 +10,7 @@ local PlaceId = 109983668079237
 
 pcall(function() Http:SetHttpEnabled(true) end)
 
--- STRICT HIGH-RATE PET NAMES (40M+ $/s confirmed)
+-- S-TIER PET NAMES (40M+ $/s confirmed)
 local HIGH_RATE_PETS = {
     "strawberry elephant", "dragon cannelloni", "spaghetti tualetti", "garama and madundung",
     "ketchuru and masturu", "la supreme combinasion", "cocofanto elefanto", "bombardiro crocodilo",
@@ -18,7 +18,7 @@ local HIGH_RATE_PETS = {
     "trenostruzzo turbo", "nuclearo dinossauro", "la grande combinasion"
 }
 
-local MIN_RATE = 40000000  -- 40M $/s MINIMUM – ignores anything lower
+local MIN_RATE = 40000000  -- 40M $/s MINIMUM
 
 local function hasHighRatePet()
     for _, p in game.Players:GetPlayers() do
@@ -31,7 +31,7 @@ local function hasHighRatePet()
                             if name:find(high) then
                                 SG:SetCore("SendNotification",{
                                     Title = "HIGH-RATE PET FOUND!",
-                                    Text = tool.Name.." (40M+ $/s detected)",
+                                    Text = tool.Name.." (40M+ $/s)",
                                     Duration = 30
                                 })
                                 return true
@@ -41,7 +41,7 @@ local function hasHighRatePet()
                         if rate and rate:IsA("NumberValue") and rate.Value >= MIN_RATE then
                             SG:SetCore("SendNotification",{
                                 Title = "40M+/s PET LIVE!",
-                                Text = tool.Name.." → "..tostring(rate.Value).." $/s (RATE, not cost)",
+                                Text = tool.Name.." → "..tostring(rate.Value).." $/s",
                                 Duration = 30
                             })
                             return true
@@ -57,17 +57,16 @@ local function hasHighRatePet()
 end
 
 task.spawn(function()
-    while task.wait(1.5) do  -- Faster check for live rates
+    while task.wait(1.5) do
         if hasHighRatePet() then
             SG:SetCore("SendNotification",{
                 Title = "SAUCE",
                 Text = "40M+ $/s FOUND – STAY & STEAL!",
                 Duration = 20
             })
-            break  -- Stops hopping forever
+            break
         end
 
-        -- Hop to low-player servers for better odds
         local servers = {}
         local ok, data = pcall(function() 
             return Http:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100"))
@@ -76,21 +75,21 @@ task.spawn(function()
 
         local hopped = false
         for _, srv in servers do
-            if srv.playing < 60 and srv.playing > 0 and srv.id ~= game.JobId then  -- Even lower player count for rares
-                SG:SetCore("SendNotification",{Title="Sauce",Text="Hopping to "..srv.playing.."p server (scanning for 40M+)",Duration=4})
+            if srv.playing < 60 and srv.playing > 0 and srv.id ~= game.JobId then
+                SG:SetCore("SendNotification",{Title="Sauce",Text="Hopping to "..srv.playing.."p server",Duration=4})
                 pcall(TS.TeleportToPlaceInstance, TS, PlaceId, srv.id, PL)
                 hopped = true
                 break
             end
         end
         if not hopped then task.wait(5) end
-        task.wait(12)  -- Wait for load
+        task.wait(12)
     end
 end)
 
 SG:SetCore("SendNotification",{
     Title = "Sauce 40M+ Hunter",
-    Text = "Active – ignores <40M $/s pets (checking RATES only)",
+    Text = "Active – ignores <40M $/s pets (RATE only)",
     Duration = 10
 })
-print("Sauce strict hunter loaded – 40M+ $/s detection ON")
+print("Sauce rate hunter loaded – 40M+ $/s detection ON")
